@@ -3,147 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>War Game with Weapons</title>
+    <title>Animated Product Display</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f4; }
-        #gameContainer { width: 70%; margin: 0 auto; }
-        .stage { display: none; padding: 20px; margin-top: 20px; background-color: #333; color: white; border-radius: 5px; }
-        .character { margin-top: 20px; font-size: 18px; }
-        #stageInfo { font-size: 22px; margin-top: 20px; }
-        #attackBtn { padding: 10px 20px; background-color: #28a745; color: white; border: none; cursor: pointer; border-radius: 5px; }
-        #attackBtn:hover { background-color: #218838; }
-        .weaponChoice { margin-top: 20px; }
-        select { padding: 5px; font-size: 16px; }
-        #gameOver { display: none; margin-top: 20px; color: red; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        
+        .product-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px;
+            max-width: 600px;
+            text-align: center;
+            animation: fadeIn 0.8s ease-out;
+            transition: all 0.3s ease;
+        }
+        
+        .product-container:hover {
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            transform: translateY(-5px);
+        }
+        
+        .product-image {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .product-image:hover {
+            animation: pulse 1.5s infinite;
+        }
+        
+        .product-details {
+            margin-top: 20px;
+        }
+        
+        h2 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .specs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 15px 0;
+        }
+        
+        .spec-item {
+            background: #f0f0f0;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .spec-item:hover {
+            background: #e0e0e0;
+            transform: scale(1.05);
+        }
+        
+        .zoom-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255,255,255,0.8);
+            padding: 5px;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .image-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .image-container:hover .zoom-icon {
+            opacity: 1;
+            animation: rotate 2s linear infinite;
+        }
+        
+        .cta-button {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
     </style>
 </head>
 <body>
-    <div id="gameContainer">
-        <h1>War Game with Weapons</h1>
-        <div id="characterInfo" class="character">
-            <p id="characterName">Character Name: Hero</p>
-            <p id="characterHealth">Health: 100</p>
+    <div class="product-container">
+        <div class="image-container">
+            <img src="IMG_20250418_221253.jpg" 
+                 alt="SWICKERS product - Size 4x44x0.6 inches"
+                 class="product-image"
+                 title="Click to enlarge">
+            <div class="zoom-icon">🔍</div>
         </div>
-        <div id="stageInfo">Stage: 1</div>
-
-        <!-- Weapon Selection -->
-        <div class="weaponChoice">
-            <label for="weaponSelect">Choose Your Weapon:</label>
-            <select id="weaponSelect">
-                <!-- Weapons will be added here via JavaScript -->
-            </select>
-        </div>
-
-        <div id="stage1" class="stage">
-            <h3>Stage 1: Dark Forest</h3>
-            <p>You face a group of enemies in the dark forest. Defeat 5 enemies to win.</p>
-            <button id="attackBtn" onclick="attack()">Attack</button>
-        </div>
-
-        <div id="stage2" class="stage">
-            <h3>Stage 2: Burnt Village</h3>
-            <p>Defend the survivors in the burnt village.</p>
-            <button id="attackBtn" onclick="attack()">Attack</button>
-        </div>
-
-        <div id="gameOver">
-            <h2>You have been defeated!</h2>
-            <button onclick="restartGame()">Restart Game</button>
+        
+        <div class="product-details">
+            <h2>SWICKERS</h2>
+            
+            <div class="specs">
+                <div class="spec-item">
+                    <strong>Size</strong>
+                    <p>4x44x0.6 inches</p>
+                </div>
+                <div class="spec-item">
+                    <strong>Voltage</strong>
+                    <p>5:30v</p>
+                </div>
+            </div>
+            
+            <button class="cta-button">View Details</button>
         </div>
     </div>
 
     <script>
-        // Weapon Definitions
-        const weapons = [
-            { name: "Knife", damage: 10 },
-            { name: "Pistol", damage: 20 },
-            { name: "Assault Rifle", damage: 30 },
-            { name: "Shotgun", damage: 40 },
-            { name: "Hand Grenade", damage: 50 },
-            { name: "Light Saber", damage: 35 },
-            { name: "Giant Hammer", damage: 60 },
-            { name: "Bow & Arrows", damage: 25 },
-            { name: "Motorcycle Attack", damage: 40 },
-            { name: "Mini Tank", damage: 80 },
-            { name: "Poison Arrow", damage: 15 },
-            { name: "Electric Shield", damage: 0 }, // Just for defense
-            { name: "Tear Gas Grenade", damage: 25 },
-            { name: "Energy Blade", damage: 50 },
-            { name: "Guided Missile", damage: 70 }
-        ];
-
-        // Game Variables
-        let characterHealth = 100;
-        let currentStage = 1;
-        let enemiesDefeated = 0;
-        let selectedWeapon = weapons[0]; // Default to the first weapon
-
-        // Add weapons to the selection list
-        const weaponSelect = document.getElementById("weaponSelect");
-        weapons.forEach((weapon, index) => {
-            const option = document.createElement("option");
-            option.value = index;
-            option.textContent = weapon.name;
-            weaponSelect.appendChild(option);
+        // Add click animation to the product image
+        const productImage = document.querySelector('.product-image');
+        productImage.addEventListener('click', function() {
+            this.style.transform = 'scale(1.8)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 300);
         });
-
-        // Update selected weapon
-        weaponSelect.addEventListener("change", function() {
-            selectedWeapon = weapons[this.value];
-            console.log("Selected Weapon: " + selectedWeapon.name);
+        
+        // Button click effect
+        const ctaButton = document.querySelector('.cta-button');
+        ctaButton.addEventListener('click', function() {
+            this.textContent = 'Loading...';
+            setTimeout(() => {
+                this.textContent = 'Details Coming Soon!';
+            }, 1000);
         });
-
-        // Show the current stage
-        function showStage() {
-            const allStages = document.querySelectorAll('.stage');
-            allStages.forEach(stage => stage.style.display = 'none');
-            
-            const currentStageDiv = document.getElementById(`stage${currentStage}`);
-            if (currentStageDiv) {
-                currentStageDiv.style.display = 'block';
-            }
-
-            const stageInfo = document.getElementById("stageInfo");
-            stageInfo.textContent = `Stage: ${currentStage}`;
-        }
-
-        // Attack the enemies
-        function attack() {
-            const enemiesToDefeat = 5; // Example: number of enemies in Stage 1
-            enemiesDefeated++;
-            console.log(`Attacked with weapon: ${selectedWeapon.name} and dealt ${selectedWeapon.damage} damage.`);
-
-            if (enemiesDefeated >= enemiesToDefeat) {
-                if (currentStage < 2) { // Move to the next stage
-                    currentStage++;
-                    enemiesDefeated = 0;
-                    alert("Enemies defeated, moving to the next stage!");
-                } else {
-                    alert("You've won all the stages!");
-                    return;
-                }
-            }
-
-            updateCharacterStatus();
-            showStage();
-        }
-
-        // Update character's status
-        function updateCharacterStatus() {
-            document.getElementById("characterHealth").textContent = `Health: ${characterHealth}`;
-        }
-
-        // Restart the game
-        function restartGame() {
-            currentStage = 1;
-            enemiesDefeated = 0;
-            characterHealth = 100;
-            document.getElementById("gameOver").style.display = 'none';
-            showStage();
-        }
-
-        // Start the game
-        showStage();
     </script>
 </body>
 </html>
